@@ -24,6 +24,7 @@ app.get('/stats', async (req, res) => {
   try {
     const { coin } = req.query;
 
+    // Check if the coin parameter is provided
     if (!coin) {
       return res.status(400).json({ error: 'Query param `coin` is required.' });
     }
@@ -51,6 +52,7 @@ app.get('/deviation', async (req, res) => {
   try {
     const { coin } = req.query;
 
+    // Check if the coin parameter is provided
     if (!coin) {
       return res.status(400).json({ error: 'Query param `coin` is required.' });
     }
@@ -65,10 +67,10 @@ app.get('/deviation', async (req, res) => {
     // Extract prices
     const prices = records.map(record => record.price);
 
-    // Calculate mean
+    // Calculate mean of the prices
     const mean = prices.reduce((sum, price) => sum + price, 0) / prices.length;
 
-    // Calculate variance
+    // Calculate variance (the sum of squared differences from the mean)
     const variance = prices.reduce((sum, price) => sum + Math.pow(price - mean, 2), 0) / prices.length;
 
     // Calculate standard deviation
@@ -81,7 +83,6 @@ app.get('/deviation', async (req, res) => {
   }
 });
 
-// Start the Express server
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
